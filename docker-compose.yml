@@ -1,0 +1,44 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:15
+    container_name: postgres_db
+    environment:
+      # He cambiado el nombre de la base de datos aquí
+      POSTGRES_DB: enciclopedia_db
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: toor
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U root -d enciclopedia_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "8081:80"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  app:
+    build: .
+    container_name: spring_plantas
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      # IMPORTANTE: Asegúrate de que el nombre coincide al final de la URL
+      JDBC_DATABASE_URL: jdbc:postgresql://db:5432/enciclopedia_db
+      DB_USER: root
+      DB_PASSWORD: toor

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Enciclopedia de Plantas</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+  </head>
+  <body>
+    <h1>Enciclopedia de Plantas</h1>
+    <a href="/add" class="btn-add">Agregar nueva planta</a>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Tipo</th>
+          <th>Altura (M)</th>
+          <th>Ubicación</th>
+          <th>Rareza</th>
+          <th>Notas de Campo</th>
+          <th style="text-align: center">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="planta : ${plantas}">
+          <td th:text="${planta.id}"></td>
+          <td th:text="${planta.nombre}"></td>
+          <td th:text="${planta.tipo != null ? planta.tipo.nombre : 'Sin tipo'}"></td>
+          <td th:text="${planta.altura}"></td>
+          <td th:text="${planta.ubicacion}"></td>
+          <td th:text="${planta.rareza}"></td>
+          <td th:text="${planta.notasCampo}"></td>
+          <td class="actions" style="text-align: center">
+            <a th:href="@{/edit/{id}(id=${planta.id})}">Editar</a>
+            |
+            <a
+              th:href="@{/delete/{id}(id=${planta.id})}"
+              class="delete"
+              onclick="return confirm('¿Estás seguro de que quieres borrar este hallazgo de la libreta?')"
+              >Eliminar</a
+            >
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
