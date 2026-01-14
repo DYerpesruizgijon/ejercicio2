@@ -33,12 +33,7 @@
           <td class="actions" style="text-align: center">
             <a th:href="@{/edit/{id}(id=${planta.id})}">Editar</a>
             |
-            <a
-              th:href="@{/delete/{id}(id=${planta.id})}"
-              class="delete"
-              onclick="return confirm('¿Estás seguro de que quieres borrar este hallazgo de la libreta?')"
-              >Eliminar</a
-            >
+            <a th:href="@{/confirm-delete/{id}(id=${planta.id})}">Eliminar</a>
           </td>
         </tr>
       </tbody>

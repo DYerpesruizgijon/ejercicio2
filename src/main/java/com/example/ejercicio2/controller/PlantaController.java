@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.ejercicio2.model.Planta;
 import com.example.ejercicio2.model.Tipo;
@@ -41,7 +42,7 @@ public class PlantaController {
         if (existente != null) {
             planta.setTipo(existente);
         }
-        
+
         repo.save(planta);
         return "redirect:/";
     }
@@ -55,7 +56,7 @@ public class PlantaController {
     @PostMapping("/edit/{id}")
     public String editPlanta(@PathVariable Long id, Planta planta) {
         planta.setId(id);
-        
+
         //evitar duplicados
         Tipo existente = tipoRepo.findByNombre(planta.getTipo().getNombre());
         if (existente != null) {
@@ -66,9 +67,19 @@ public class PlantaController {
         return "redirect:/";
     }
 
-    @GetMapping("/delete/{id}")
-    public String deletePlanta(@PathVariable Long id) {
-        repo.deleteById(id);
-        return "redirect:/";
+    //  Mostrar la página de confirmación
+    @GetMapping("/confirm-delete/{id}")
+    public String mostrarConfirmacion(@PathVariable Long id, Model model) {
+        model.addAttribute("id", id);
+        return "confirmar-borrado";
+    }
+
+    //  Procesar el borrado con clave
+    @PostMapping("/delete/{id}")
+    public String eliminarPlanta(@PathVariable Long id, @RequestParam String password) {
+        if ("admin123".equals(password)) {
+            repo.deleteById(id);
+        }
+        return "redirect:/"; // Si la clave falla o acierta, vuelve al índice
     }
 }

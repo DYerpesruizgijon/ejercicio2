@@ -1,6 +1,8 @@
 package com.example.ejercicio2.model;
 
-import jakarta.persistence.CascadeType;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,8 +19,9 @@ public class Planta {
 
     private String nombre;
 
-    @ManyToOne(cascade= CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name= "tipo_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Tipo tipo;
     
     private Double altura;

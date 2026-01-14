@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmar Borrado</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <h1>Autorización Requerida</h1>
+    <p>Para eliminar la planta con ID: <strong th:text="${id}"></strong>, introduce la clave de administrador:</p>
+    
+    <form th:action="@{/delete/{id}(id=${id})}" method="post">
+        <input type="password" name="password" placeholder="Contraseña de Admin" required autofocus>
+        <br><br>
+        <button type="submit" class="btn-delete">Confirmar y Eliminar</button>
+        <a href="/" class="btn-cancel">Cancelar</a>
+    </form>
+
+    <p th:if="${error}" style="color: red;">Contraseña incorrecta. Inténtalo de nuevo.</p>
+</body>
+</html>
