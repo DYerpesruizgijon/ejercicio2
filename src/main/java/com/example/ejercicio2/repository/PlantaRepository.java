@@ -8,7 +8,9 @@ import com.example.ejercicio2.model.Planta;
 
 public interface PlantaRepository extends JpaRepository<Planta, Long> {
 
-    // buscamos por el atributo 'nombre' que está DENTRO del objeto 'tipo'
+    // Añade esta línea para que Postgre ordene por ID
+    List<Planta> findAllByOrderByIdAsc();
+
     List<Planta> findByTipoNombre(String nombre);
 
     Planta findById(long id);

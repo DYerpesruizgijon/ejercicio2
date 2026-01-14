@@ -25,8 +25,9 @@ public class PlantaController {
 
     @GetMapping("/")
     public String index(Model model) {
-        model.addAttribute("plantas", repo.findAll());
-        return "index"; // nombre del template Thymeleaf
+        //  enviará la lista ordenada a Thymeleaf
+        model.addAttribute("plantas", repo.findAllByOrderByIdAsc());
+        return "index";
     }
 
     @GetMapping("/add")
