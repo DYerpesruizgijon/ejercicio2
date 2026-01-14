@@ -62,12 +62,17 @@ public class PlantaController {
 
     @PostMapping("/edit/{id}")
     public String editPlanta(@PathVariable Long id, Planta planta) {
+        // 1. FUNDAMENTAL: Le ponemos el ID de la URL a la planta 
+        // para que Spring sepa que es una EDICIÓN y no un ALTA
         planta.setId(id);
 
-        //evitar duplicados
+        // 2. Misma lógica que en añadir para el Tipo
         Tipo existente = tipoRepo.findByNombre(planta.getTipo().getNombre());
         if (existente != null) {
             planta.setTipo(existente);
+        } else {
+            // Si el usuario cambia el tipo por uno que no existe, lo creamos
+            tipoRepo.save(planta.getTipo());
         }
 
         repo.save(planta);
