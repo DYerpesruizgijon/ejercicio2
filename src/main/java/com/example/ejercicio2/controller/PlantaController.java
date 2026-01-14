@@ -37,12 +37,19 @@ public class PlantaController {
 
     @PostMapping("/add")
     public String addPlanta(Planta planta) {
-        //evitar duplicados
+        // 1. Buscamos en la base de datos si ya existe un tipo con ese nombre
         Tipo existente = tipoRepo.findByNombre(planta.getTipo().getNombre());
+
         if (existente != null) {
+            // 2. Si existe, le asignamos a la planta el tipo que YA tiene un ID
+            // Esto evita que Hibernate intente crear un tipo duplicado
             planta.setTipo(existente);
+        } else {
+            // 3. Si no existe, guardamos el tipo nuevo primero
+            tipoRepo.save(planta.getTipo());
         }
 
+        // 4. Ahora guardamos la planta con un tipo que ya es "conocido" por la BD
         repo.save(planta);
         return "redirect:/";
     }
