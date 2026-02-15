@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
@@ -7,34 +7,28 @@
   </head>
   <body>
     <h1>Enciclopedia de Plantas</h1>
-    <a href="/add" class="btn-add">Agregar nueva planta</a>
+    
+    <p style="text-align: right;"><a th:href="@{/login}">Acceso Staff</a></p>
+
     <table border="1">
       <thead>
         <tr>
-          <th>ID</th>
           <th>Nombre</th>
           <th>Tipo</th>
           <th>Altura (M)</th>
           <th>Ubicación</th>
           <th>Rareza</th>
           <th>Notas de Campo</th>
-          <th style="text-align: center">Acciones</th>
         </tr>
       </thead>
       <tbody>
         <tr th:each="planta : ${plantas}">
-          <td th:text="${planta.id}"></td>
           <td th:text="${planta.nombre}"></td>
           <td th:text="${planta.tipo != null ? planta.tipo.nombre : 'Sin tipo'}"></td>
           <td th:text="${planta.altura}"></td>
           <td th:text="${planta.ubicacion}"></td>
           <td th:text="${planta.rareza}"></td>
           <td th:text="${planta.notasCampo}"></td>
-          <td class="actions" style="text-align: center">
-            <a th:href="@{/edit/{id}(id=${planta.id})}">Editar</a>
-            |
-            <a th:href="@{/confirm-delete/{id}(id=${planta.id})}" class="delete">Eliminar</a>
-          </td>
         </tr>
       </tbody>
     </table>

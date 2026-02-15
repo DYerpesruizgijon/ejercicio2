@@ -1,11 +1,11 @@
 package com.example.ejercicio2.controller;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.ejercicio2.model.Planta;
 import com.example.ejercicio2.model.Tipo;
@@ -24,10 +24,28 @@ public class PlantaController {
     }
 
     @GetMapping("/")
-    public String index(Model model) {
-        //  enviará la lista ordenada a Thymeleaf
+    public String index(Model model, Authentication authentication) {
+        // 1. Enviamos la lista a ambas posibles vistas
         model.addAttribute("plantas", repo.findAllByOrderByIdAsc());
-        return "index";
+
+        // 2. Verificamos si el usuario está autenticado
+        if (authentication != null && authentication.isAuthenticated()) {
+            // 3. Revisamos si tiene el rol de ADMIN
+            boolean isAdmin = authentication.getAuthorities().stream()
+                    .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+
+            if (isAdmin) {
+                return "index-admin"; // Carga index-admin.html si es admin
+            }
+        }
+
+        // 4. Si no está logueado o es un usuario común, carga la vista normal
+        return "index"; // Carga index.html
+    }
+
+    @GetMapping("/login")
+    public String login() {
+        return "login"; // Esto busca el archivo login.html
     }
 
     @GetMapping("/add")
@@ -89,10 +107,9 @@ public class PlantaController {
 
     //  Procesar el borrado con clave
     @PostMapping("/delete/{id}")
-    public String eliminarPlanta(@PathVariable Long id, @RequestParam String password) {
-        if ("admin123".equals(password)) {
-            repo.deleteById(id);
-        }
-        return "redirect:/"; // Si la clave falla o acierta, vuelve al índice
+    public String eliminarPlanta(@PathVariable Long id) {
+
+        repo.deleteById(id);
+        return "redirect:/";
     }
 }
