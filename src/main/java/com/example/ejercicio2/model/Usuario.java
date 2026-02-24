@@ -23,6 +23,18 @@ public class Usuario {
 
     private String role; //"ROLE_ADMIN" o "ROLE_USER"
 
+    
+    @Column(unique = true)
+    private String email;
+    
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public Usuario() {}
 
     // Getters y Setters

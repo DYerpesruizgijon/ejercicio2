@@ -28,6 +28,7 @@ public class Planta {
     private String ubicacion;
     private String rareza;
     private String notasCampo;
+    private String fotoUrl;
 
     public  Planta() {
     } // constructor vacío para JPA
@@ -70,4 +71,12 @@ public class Planta {
 
     public String getNotasCampo() { return notasCampo; }
     public void setNotasCampo(String notasCampo) { this.notasCampo = notasCampo; }
+
+    public String getFotoUrl() {
+        return fotoUrl;
+    }
+
+    public void setFotoUrl(String fotoUrl) {
+        this.fotoUrl = fotoUrl;
+    }
 }

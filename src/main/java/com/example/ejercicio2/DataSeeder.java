@@ -24,10 +24,18 @@ public class DataSeeder implements CommandLineRunner {
             Usuario admin = new Usuario();
             admin.setUsername("admin");
             // Usamos el codificador que definiste con @Bean
-            admin.setPassword(encoder.encode("1234")); 
+            admin.setPassword(encoder.encode("1234"));
             admin.setRole("ROLE_ADMIN");
             repo.save(admin);
-            System.out.println("Usuario inicial creado: admin / 1234");
+
+            // Usuario USER (nuevo)
+            Usuario explorador = new Usuario();
+            explorador.setUsername("juan_botanico");
+            explorador.setPassword(encoder.encode("abc123"));
+            explorador.setRole("ROLE_USER");
+            explorador.setEmail("juan@example.com");
+            repo.save(explorador);
+            System.out.println("Usuario iniciales");
         }
     }
 }

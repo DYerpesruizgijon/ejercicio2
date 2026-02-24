@@ -7,12 +7,14 @@
   </head>
   <body>
     <h1>Enciclopedia de Plantas</h1>
-    
-    <p style="text-align: right;"><a th:href="@{/login}">Acceso Staff</a></p>
+
+    <p style="text-align: right"><a th:href="@{/login}">Acceso Staff</a></p>
 
     <table border="1">
       <thead>
         <tr>
+          <th>Usuario</th>
+          <th>Imagen</th>
           <th>Nombre</th>
           <th>Tipo</th>
           <th>Altura (M)</th>
@@ -23,8 +25,27 @@
       </thead>
       <tbody>
         <tr th:each="planta : ${plantas}">
+          <td
+            th:text="${planta.creador != null ? planta.creador : 'Anónimo'}"
+          ></td>
+          <td>
+            <img
+              th:if="${planta.fotoUrl != null}"
+              th:src="${planta.fotoUrl}"
+              alt="Foto planta"
+              style="
+                width: 80px;
+                height: 80px;
+                object-fit: cover;
+                border-radius: 8px;
+              "
+            />
+            <span th:if="${planta.fotoUrl == null}">Sin foto</span>
+          </td>
           <td th:text="${planta.nombre}"></td>
-          <td th:text="${planta.tipo != null ? planta.tipo.nombre : 'Sin tipo'}"></td>
+          <td
+            th:text="${planta.tipo != null ? planta.tipo.nombre : 'Sin tipo'}"
+          ></td>
           <td th:text="${planta.altura}"></td>
           <td th:text="${planta.ubicacion}"></td>
           <td th:text="${planta.rareza}"></td>

@@ -6,7 +6,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.example.ejercicio2.Service.CloudinaryService;
 import com.example.ejercicio2.model.Planta;
 import com.example.ejercicio2.model.Tipo;
 import com.example.ejercicio2.repository.PlantaRepository;
@@ -17,10 +20,12 @@ public class PlantaController {
 
     private final PlantaRepository repo;
     private final TipoRepository tipoRepo;
+    private final CloudinaryService cloudinaryService;
 
-    public PlantaController(PlantaRepository repo, TipoRepository tipoRepo) {
+    public PlantaController(PlantaRepository repo, TipoRepository tipoRepo, CloudinaryService cloudinaryService) {
         this.repo = repo;
         this.tipoRepo = tipoRepo;
+        this.cloudinaryService = cloudinaryService;
     }
 
     @GetMapping("/")
@@ -51,25 +56,29 @@ public class PlantaController {
     @GetMapping("/add")
     public String addForm(Model model) {
         model.addAttribute("planta", new Planta());
+        model.addAttribute("todosLosTipos", tipoRepo.findAll());
         return "add"; // template para añadir
     }
 
     @PostMapping("/add")
-    public String addPlanta(Planta planta) {
-        // 1. Buscamos en la base de datos si ya existe un tipo con ese nombre
-        Tipo existente = tipoRepo.findByNombre(planta.getTipo().getNombre());
+    public String addPlanta(Planta planta, @RequestParam("imagenFile") MultipartFile imagenFile) {
+        try {
+            //  Si el usuario subió una imagen, la enviamos a Cloudinary
+            if (imagenFile != null && !imagenFile.isEmpty()) {
+                String urlImagen = cloudinaryService.subirImagen(imagenFile);
+                planta.setFotoUrl(urlImagen); // Guardamos la URL que nos devuelve Cloudinary
+            }
 
-        if (existente != null) {
-            // 2. Si existe, le asignamos a la planta el tipo que YA tiene un ID
-            // Esto evita que Hibernate intente crear un tipo duplicado
-            planta.setTipo(existente);
-        } else {
-            // 3. Si no existe, guardamos el tipo nuevo primero
-            tipoRepo.save(planta.getTipo());
+            if (planta.getTipo() != null && planta.getTipo().getId() != null) {
+                // Buscamos el tipo real por su ID para que la relación sea sólida
+                Tipo tipoSeleccionado = tipoRepo.findById(planta.getTipo().getId()).orElse(null);
+                planta.setTipo(tipoSeleccionado);
+            }
+
+            repo.save(planta);
+        } catch (Exception e) {
+            e.printStackTrace(); // Para ver errores en consola si falla la subida
         }
-
-        // 4. Ahora guardamos la planta con un tipo que ya es "conocido" por la BD
-        repo.save(planta);
         return "redirect:/";
     }
 
