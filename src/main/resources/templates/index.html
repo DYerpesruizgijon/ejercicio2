@@ -8,8 +8,11 @@
   <body>
     <h1>Enciclopedia de Plantas</h1>
 
-    <p style="text-align: right"><a th:href="@{/login}">Acceso Staff</a></p>
-
+    <p th:if="${usuarioActual != null}">
+      Tus puntos: <span th:text="${usuarioActual.puntos}"></span> Rango:
+      <span th:text="${usuarioActual.getRango()}"></span>
+    </p>
+    
     <table border="1">
       <thead>
         <tr>

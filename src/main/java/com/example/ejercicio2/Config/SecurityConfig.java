@@ -15,7 +15,8 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/", "/css/**", "/login").permitAll() // ¡Permite ver el login!
-                .requestMatchers("/add", "/edit/**", "/delete/**").hasRole("ADMIN")
+                .requestMatchers("/add").hasAnyRole("USER", "ADMIN")
+                .requestMatchers("/edit/**", "/delete/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 )
                 .formLogin(login -> login
