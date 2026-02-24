@@ -12,8 +12,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.ejercicio2.Service.CloudinaryService;
 import com.example.ejercicio2.model.Planta;
 import com.example.ejercicio2.model.Tipo;
+import com.example.ejercicio2.model.Usuario;
 import com.example.ejercicio2.repository.PlantaRepository;
 import com.example.ejercicio2.repository.TipoRepository;
+import com.example.ejercicio2.repository.UsuarioRepository;
 
 @Controller
 public class PlantaController {
@@ -21,31 +23,34 @@ public class PlantaController {
     private final PlantaRepository repo;
     private final TipoRepository tipoRepo;
     private final CloudinaryService cloudinaryService;
+    private final UsuarioRepository usuarioRepo;
 
-    public PlantaController(PlantaRepository repo, TipoRepository tipoRepo, CloudinaryService cloudinaryService) {
+    public PlantaController(PlantaRepository repo, TipoRepository tipoRepo, CloudinaryService cloudinaryService, UsuarioRepository usuarioRepo) {
         this.repo = repo;
         this.tipoRepo = tipoRepo;
         this.cloudinaryService = cloudinaryService;
+        this.usuarioRepo = usuarioRepo;
     }
 
     @GetMapping("/")
     public String index(Model model, Authentication authentication) {
-        // 1. Enviamos la lista a ambas posibles vistas
+        // 1. Enviamos siempre la lista de plantas
         model.addAttribute("plantas", repo.findAllByOrderByIdAsc());
 
-        // 2. Verificamos si el usuario está autenticado
         if (authentication != null && authentication.isAuthenticated()) {
-            // 3. Revisamos si tiene el rol de ADMIN
+            // 2. BUSCAMOS AL USUARIO LOGUEADO para que el HTML tenga sus datos
+            Usuario user = usuarioRepo.findByUsername(authentication.getName()).orElse(null);
+            model.addAttribute("usuarioActual", user); // <--- ESTO ES VITAL
+
             boolean isAdmin = authentication.getAuthorities().stream()
                     .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
 
             if (isAdmin) {
-                return "index-admin"; // Carga index-admin.html si es admin
+                return "index-admin";
             }
         }
 
-        // 4. Si no está logueado o es un usuario común, carga la vista normal
-        return "index"; // Carga index.html
+        return "index"; // Aquí se caía si index.html pedía datos del usuario que no enviamos
     }
 
     @GetMapping("/login")
@@ -61,8 +66,13 @@ public class PlantaController {
     }
 
     @PostMapping("/add")
-    public String addPlanta(Planta planta, @RequestParam("imagenFile") MultipartFile imagenFile) {
+    public String addPlanta(Planta planta, @RequestParam("imagenFile") MultipartFile imagenFile, Authentication authentication) {
         try {
+            // 1. Asignar el nombre del usuario logueado
+            if (authentication != null && authentication.isAuthenticated()) {
+                // Obtenemos el username del usuario que tiene la sesión iniciada
+                planta.setCreador(authentication.getName());
+            }
             //  Si el usuario subió una imagen, la enviamos a Cloudinary
             if (imagenFile != null && !imagenFile.isEmpty()) {
                 String urlImagen = cloudinaryService.subirImagen(imagenFile);
@@ -76,6 +86,14 @@ public class PlantaController {
             }
 
             repo.save(planta);
+
+            // Buscamos al usuario para actualizar sus puntos
+            Usuario autor = usuarioRepo.findByUsername(authentication.getName())
+                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+            // Sumamos 10 puntos (esto disparará el cambio de rango automáticamente al consultar getRango)
+            autor.setPuntos(autor.getPuntos() + 10);
+            usuarioRepo.save(autor);
         } catch (Exception e) {
             e.printStackTrace(); // Para ver errores en consola si falla la subida
         }

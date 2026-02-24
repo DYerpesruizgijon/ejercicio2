@@ -20,17 +20,18 @@ public class Planta {
     private String nombre;
 
     @ManyToOne
-    @JoinColumn(name= "tipo_id")
+    @JoinColumn(name = "tipo_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Tipo tipo;
-    
+
     private Double altura;
     private String ubicacion;
     private String rareza;
     private String notasCampo;
     private String fotoUrl;
+    private String creador;
 
-    public  Planta() {
+    public Planta() {
     } // constructor vacío para JPA
 
     public Planta(String nombre, Tipo tipo, Double altura, String ubicacion, String rareza, String notasCampo) {
@@ -51,26 +52,61 @@ public class Planta {
     }
 
     // Getters y Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getId() {
+        return id;
+    }
 
-    public String getNombre() { return nombre; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public Tipo getTipo() { return tipo; }
-    public void setTipo(Tipo tipo) { this.tipo = tipo; }
+    public String getNombre() {
+        return nombre;
+    }
 
-    public Double getAltura() { return altura; }
-    public void setAltura(Double altura) { this.altura = altura; }
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
-    public String getUbicacion() { return ubicacion; }
-    public void setUbicacion(String ubicacion) { this.ubicacion = ubicacion; }
+    public Tipo getTipo() {
+        return tipo;
+    }
 
-    public String getRareza() { return rareza; }
-    public void setRareza(String rareza) { this.rareza = rareza; }
+    public void setTipo(Tipo tipo) {
+        this.tipo = tipo;
+    }
 
-    public String getNotasCampo() { return notasCampo; }
-    public void setNotasCampo(String notasCampo) { this.notasCampo = notasCampo; }
+    public Double getAltura() {
+        return altura;
+    }
+
+    public void setAltura(Double altura) {
+        this.altura = altura;
+    }
+
+    public String getUbicacion() {
+        return ubicacion;
+    }
+
+    public void setUbicacion(String ubicacion) {
+        this.ubicacion = ubicacion;
+    }
+
+    public String getRareza() {
+        return rareza;
+    }
+
+    public void setRareza(String rareza) {
+        this.rareza = rareza;
+    }
+
+    public String getNotasCampo() {
+        return notasCampo;
+    }
+
+    public void setNotasCampo(String notasCampo) {
+        this.notasCampo = notasCampo;
+    }
 
     public String getFotoUrl() {
         return fotoUrl;
@@ -78,5 +114,13 @@ public class Planta {
 
     public void setFotoUrl(String fotoUrl) {
         this.fotoUrl = fotoUrl;
+    }
+
+    public String getCreador() {
+        return creador;
+    }
+
+    public void setCreador(String creador) {
+        this.creador = creador;
     }
 }

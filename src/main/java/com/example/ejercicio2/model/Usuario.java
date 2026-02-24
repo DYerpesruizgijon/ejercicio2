@@ -22,11 +22,31 @@ public class Usuario {
     private String password;
 
     private String role; //"ROLE_ADMIN" o "ROLE_USER"
+    private int puntos = 0;
 
-    
+    public int getPuntos() {
+        return puntos;
+    }
+
+    public String getRango() {
+        if (puntos < 100) {
+            return "Semilla";
+        }
+        if (puntos < 300) {
+            return "Brote";
+        }
+        if (puntos < 600) {
+            return "Arbusto";
+        }
+        return "Árbol Maestro";
+    }
+
+    public void setPuntos(int puntos) {
+        this.puntos = puntos;
+    }
     @Column(unique = true)
     private String email;
-    
+
     public String getEmail() {
         return email;
     }
@@ -35,14 +55,35 @@ public class Usuario {
         this.email = email;
     }
 
-    public Usuario() {}
+    public Usuario() {
+    }
 
     // Getters y Setters
-    public Long getId() { return id; }
-    public String getUsername() { return username; }
-    public void setUsername(String username) { this.username = username; }
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
-    public String getRole() { return role; }
-    public void setRole(String role) { this.role = role; }
+    public Long getId() {
+        return id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 }
