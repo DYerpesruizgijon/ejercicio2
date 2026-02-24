@@ -18,24 +18,24 @@ public class ChatService {
     @Value("${huggingface.api.key}")
     private String apiKey;
 
-    private final String URL = "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.3";
+    private final String URL = "https://router.huggingface.co/v1/chat/completions";
 
     public String obtenerRecomendaciones(String ubicacion) {
         // Configuramos el cliente para que tenga PACIENCIA (60 segundos)
         SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
-        factory.setConnectTimeout(60000); 
-        factory.setReadTimeout(60000);    
-        
+        factory.setConnectTimeout(60000);
+        factory.setReadTimeout(60000);
+
         RestTemplate restTemplate = new RestTemplate(factory);
 
         String prompt = "<s>[INST] Eres un experto botánico. Dime 3 plantas nativas que puedo encontrar en " + ubicacion + ". Da una descripción de una frase para cada una. Responde solo en español. [/INST]";
 
         Map<String, Object> body = Map.of(
-                "inputs", prompt,
-                "parameters", Map.of(
-                        "max_new_tokens", 500,
-                        "wait_for_model", true 
-                )
+                "model", "meta-llama/Llama-3.1-8B-Instruct", // El modelo que te ha dado el 200 OK
+                "messages", List.of(
+                        Map.of("role", "user", "content", "Eres un experto botánico. Dime 3 plantas nativas de " + ubicacion + " con una descripción corta en español.")
+                ),
+                "max_tokens", 250
         );
 
         HttpHeaders headers = new HttpHeaders();
@@ -45,27 +45,12 @@ public class ChatService {
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body, headers);
 
         try {
-            // Intentamos obtener la respuesta
-            ResponseEntity<List> response = restTemplate.postForEntity(URL, entity, List.class);
-            
-            if (response.getBody() != null && !response.getBody().isEmpty()) {
-                Map<String, Object> res = (Map<String, Object>) response.getBody().get(0);
-                String texto = (String) res.get("generated_text");
-
-                if (texto.contains("[/INST]")) {
-                    return texto.split("\\[/INST\\]")[1].trim();
-                }
-                return texto;
-            }
-            return "La IA devolvió una respuesta vacía.";
-            
+            ResponseEntity<Map> response = restTemplate.postForEntity(URL, entity, Map.class);
+            List<Map<String, Object>> choices = (List<Map<String, Object>>) response.getBody().get("choices");
+            Map<String, Object> message = (Map<String, Object>) choices.get(0).get("message");
+            return (String) message.get("content"); // Aquí ya tienes el texto de las plantas
         } catch (Exception e) {
-            // Imprime el error real para que lo veamos en el log
-            System.err.println("--- ERROR DETECTADO ---");
-            System.err.println("Mensaje: " + e.getMessage());
-            e.printStackTrace();
-            
-            return "Error al conectar con la IA: " + e.getMessage();
+            return "Error: " + e.getMessage();
         }
     }
 }
