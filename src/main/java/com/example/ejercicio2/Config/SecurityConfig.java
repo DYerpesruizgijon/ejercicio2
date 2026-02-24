@@ -17,6 +17,7 @@ public class SecurityConfig {
                 .requestMatchers("/", "/css/**", "/login").permitAll() // ¡Permite ver el login!
                 .requestMatchers("/add").hasAnyRole("USER", "ADMIN")
                 .requestMatchers("/edit/**", "/delete/**").hasRole("ADMIN")
+                .requestMatchers("/registro-planta/asistente").authenticated()
                 .anyRequest().authenticated()
                 )
                 .formLogin(login -> login
