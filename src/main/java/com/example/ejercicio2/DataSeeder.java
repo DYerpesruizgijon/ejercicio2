@@ -29,12 +29,12 @@ public class DataSeeder implements CommandLineRunner {
             repo.save(admin);
 
             // Usuario USER (nuevo)
-            Usuario explorador = new Usuario();
-            explorador.setUsername("juan_botanico");
-            explorador.setPassword(encoder.encode("abc123"));
-            explorador.setRole("ROLE_USER");
-            explorador.setEmail("juan@example.com");
-            repo.save(explorador);
+            // Usuario explorador = new Usuario();
+            // explorador.setUsername("juan_botanico");
+            // explorador.setPassword(encoder.encode("abc123"));
+            // explorador.setRole("ROLE_USER");
+            // explorador.setEmail("juan@example.com");
+            // repo.save(explorador);
             System.out.println("Usuario iniciales");
         }
     }
