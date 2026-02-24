@@ -7,7 +7,7 @@
   </head>
   <body>
     <h1>Enciclopedia de Plantas</h1>
-    
+
     <!-- logica para el iniciar sesion o no  -->
     <div class="nav-links">
       <div th:if="${#authentication.principal == 'anonymousUser'}">
@@ -15,7 +15,12 @@
       </div>
 
       <div th:if="${#authentication.principal != 'anonymousUser'}">
+        
         <a th:href="@{/add}" class="btn-add">Agregar Nueva Planta</a>
+
+        <form th:action="@{/logout}" method="post" style="display: inline">
+          <button type="submit" class="btn-logout">Cerrar Sesión</button>
+        </form>
 
         <span class="user-info">
           Hola, <b th:text="${#authentication.name}">Usuario</b> (Rango:
@@ -25,9 +30,6 @@
           >)
         </span>
 
-        <form th:action="@{/logout}" method="post" style="display: inline">
-          <button type="submit" class="btn-logout">Cerrar Sesión</button>
-        </form>
       </div>
     </div>
 
