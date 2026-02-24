@@ -2,6 +2,7 @@ package com.example.ejercicio2.controller;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -20,7 +21,11 @@ public class RegistroController {
         this.usuarioRepo = usuarioRepo;
         this.passwordEncoder = passwordEncoder;
     }
-
+@GetMapping("/registro")
+    public String mostrarFormularioRegistro() {
+        return "registro"; // Debe coincidir con el nombre de tu registro.html
+    }
+    
 @PostMapping("/registro")
 public String registrarUsuario(@RequestParam String username, @RequestParam String password) {
     try {
