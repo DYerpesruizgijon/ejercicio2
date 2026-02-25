@@ -1,45 +1,87 @@
-<!DOCTYPE html>
+<!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
-    <title>Enciclopedia de Plantas</title>
+    <title>Editar Planta - Enciclopedia</title>
     <link rel="stylesheet" th:href="@{/css/style.css}" />
   </head>
   <body>
-    <h1>Editar Planta</h1>
-    <form
-      th:action="@{/edit/{id}(id=${planta.id})}"
-      th:object="${planta}"
-      method="post"
-    >
-      <label>Nombre *: <input type="text" th:field="*{nombre}" required /></label
-      ><br />
-      <label>Tipo *: 
-    <input type="text" th:field="*{tipo.nombre}" required /></label><br />
-      <label
-        >Altura (M) *:
-        <input
-          type="number"
-          step="0.01"
-          th:field="*{altura}"
-          max="100"
-          min="0.1"
-          required /></label
-      ><br />
-      <label>Ubicación del hallazgo:</label>
-      <input type="text" th:field="*{ubicacion}" required/>
+    <div class="container">
+      <h1>Editar Planta</h1>
 
-      <label>Rareza *:</label>
-      <select th:field="*{rareza}" required>
-        <option value="Comun">Común</option>
-        <option value="Rara">Rara</option>
-        <option value="Legendaria">Legendaria</option>
-      </select>
+      <form
+        th:action="@{/edit/{id}(id=${planta.id})}"
+        th:object="${planta}"
+        method="post"
+        enctype="multipart/form-data"
+      >
+        <label
+          >Nombre *: <input type="text" th:field="*{nombre}" required /> </label
+        ><br />
 
-      <label>Notas de campo:</label>
-      <textarea th:field="*{notasCampo}"></textarea>
-      <button type="submit">Actualizar</button>
-    </form>
-    <a href="/">Volver</a>
+        <label
+          >Tipo *:
+          <select th:field="*{tipo.id}" required>
+            <option
+              th:each="t : ${todosLosTipos}"
+              th:value="${t.id}"
+              th:text="${t.nombre}"
+            ></option>
+          </select> </label
+        ><br />
+
+        <label
+          >Altura (M) *:
+          <input
+            type="number"
+            step="0.01"
+            th:field="*{altura}"
+            max="100"
+            min="0.1"
+            required
+          /> </label
+        ><br />
+
+        <label
+          >Ubicación del hallazgo:
+          <input type="text" th:field="*{ubicacion}" required /> </label
+        ><br />
+
+        <label
+          >Rareza *:
+          <select th:field="*{rareza}" required>
+            <option value="Comun">Común</option>
+            <option value="Rara">Rara</option>
+            <option value="Legendaria">Legendaria</option>
+          </select> </label
+        ><br />
+
+        <label>Notas de campo:</label><br />
+        <textarea th:field="*{notasCampo}" rows="4" cols="50"></textarea><br />
+
+        <div
+          style="
+            margin-top: 15px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+          "
+        >
+          <label>Imagen actual:</label><br />
+          <img
+            th:src="*{fotoUrl}"
+            alt="Foto actual"
+            style="max-width: 150px; border-radius: 8px; margin-bottom: 10px"
+          />
+          <br />
+          <label>Cambiar foto (opcional):</label>
+          <input type="file" name="imagenFile" accept="image/*" />
+        </div>
+        <button type="submit" class="btn-save">Actualizar Planta</button>
+      </form>
+
+      <br />
+      <a th:href="@{/perfil}">Volver al Perfil</a>
+    </div>
   </body>
 </html>
