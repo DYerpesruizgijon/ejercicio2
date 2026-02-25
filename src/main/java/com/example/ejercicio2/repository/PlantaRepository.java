@@ -13,5 +13,7 @@ public interface PlantaRepository extends JpaRepository<Planta, Long> {
 
     List<Planta> findByTipoNombre(String nombre);
 
+    List<Planta> findByCreador(String creador);
+
     Planta findById(long id);
 }

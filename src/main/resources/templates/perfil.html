@@ -1,0 +1,76 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Mi Perfil Botanico</title>
+    <link rel="stylesheet" href="../static/css/style.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+    />
+  </head>
+  <body class="bg-light">
+    <div class="container mt-5">
+      <div class="card p-4 mb-4 shadow-sm">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <h1 th:text="${'Hola, ' + usuario.username}"></h1>
+            <p
+              class="badge bg-success fs-5"
+              th:text="${usuario.getRango()}"
+            ></p>
+          </div>
+          <div class="text-end">
+            <span
+              class="d-block fw-bold fs-4"
+              th:text="${usuario.puntos + ' XP'}"
+            ></span>
+            <a href="/registro-planta/nuevo" class="btn btn-primary mt-2"
+              >+ Nueva Planta</a
+            >
+          </div>
+        </div>
+      </div>
+
+      <h3>Mis Hallazgos</h3>
+      <div class="row">
+        <div class="col-md-4 mb-4" th:each="reg : ${registros}">
+          <div class="card h-100 shadow-sm">
+            <img
+              th:src="${reg.fotoUrl}"
+              class="card-img-top"
+              th:if="${reg.fotoUrl != null}"
+            />
+
+            <div class="card-body">
+              <h5 class="card-title" th:text="${reg.nombre}"></h5>
+
+              <p class="badge bg-info" th:text="${reg.tipo.nombre}"></p>
+
+              <p class="card-text text-muted">Añadida por ti a la colección.</p>
+            </div>
+
+            <div class="card-footer bg-white border-top-0">
+              <a
+                th:href="@{/edit/{id}(id=${reg.id})}"
+                class="btn btn-sm btn-outline-warning"
+                >Editar</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"
+      integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

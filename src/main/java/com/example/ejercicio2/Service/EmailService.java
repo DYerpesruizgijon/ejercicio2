@@ -49,7 +49,7 @@ public class EmailService {
                 + "    <p style='font-size: 16px; color: #333;'>Hola <strong>" + nombreDestino + "</strong>,</p>"
                 + "    <p style='font-size: 16px; color: #555; line-height: 1.5;'>" + contenido + "</p>"
                 + "    <div style='text-align: center; margin-top: 30px;'>"
-                + "      <a href='https://tu-app-en-render.onrender.com' style='background-color: #2e7d32; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px;'>Visitar mi Jardín</a>"
+                + "      <a href='https://ejercicio2-4uo5.onrender.com' style='background-color: #2e7d32; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px;'>Visitar mi Jardín</a>"
                 + "    </div>"
                 + "    <p style='margin-top: 40px; font-size: 12px; color: #999; text-align: center;'>Este es un mensaje automático, por favor no respondas.</p>"
                 + "  </div>"

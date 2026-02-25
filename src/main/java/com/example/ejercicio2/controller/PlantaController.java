@@ -1,5 +1,7 @@
 package com.example.ejercicio2.controller;
 
+import java.util.List;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,6 +41,11 @@ public class PlantaController {
     public String index(Model model, Authentication authentication) {
         // 1. Enviamos siempre la lista de plantas
         model.addAttribute("plantas", repo.findAllByOrderByIdAsc());
+
+        /*logica pa la tabla de ranking */
+        List<Usuario> ranking = usuarioRepo.findAll();
+        ranking.sort((u1, u2) -> Integer.compare(u2.getPuntos(), u1.getPuntos())); // Ordenar por puntos de mayor a menor
+        model.addAttribute("ranking", ranking);
 
         if (authentication != null && authentication.isAuthenticated()) {
             // 2. BUSCAMOS AL USUARIO LOGUEADO para que el HTML tenga sus datos
@@ -91,14 +98,13 @@ public class PlantaController {
             repo.save(planta);
 
             /*LOGICA PARA SUMAR PUNTOS Y MANDAR CORREO */
-
             // Buscamos al usuario para actualizar sus puntos
             Usuario autor = usuarioRepo.findByUsername(authentication.getName())
                     .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
             // Sumamos 10 puntos (esto disparará el cambio de rango automáticamente al consultar getRango)
             String rangoAnterior = autor.getRango();
-            
+
             autor.setPuntos(autor.getPuntos() + 10);
 
             // 3. Sumamos los puntos y guardamos
@@ -155,5 +161,23 @@ public class PlantaController {
 
         repo.deleteById(id);
         return "redirect:/";
+    }
+
+    @GetMapping("/perfil")
+    public String mostrarPerfil(Model model, Authentication authentication) {
+        if (authentication != null && authentication.isAuthenticated()) {
+            // Buscamos los datos del usuario logueado para ver sus puntos y rango
+            Usuario usuario = usuarioRepo.findByUsername(authentication.getName())
+                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+            // Buscamos las plantas donde el creador sea el usuario actual
+            List<Planta> misPlantas = repo.findByCreador(authentication.getName());
+
+            model.addAttribute("usuario", usuario);
+            model.addAttribute("registros", misPlantas);
+
+            return "perfil"; // Esto cargará el archivo perfil.html
+        }
+        return "redirect:/login";
     }
 }

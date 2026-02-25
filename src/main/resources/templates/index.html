@@ -9,32 +9,79 @@
     <h1>Enciclopedia de Plantas</h1>
 
     <!-- logica para el iniciar sesion o no  -->
-    <div class="nav-links">
-      <div th:if="${#authentication.principal == 'anonymousUser'}">
-        <a th:href="@{/login}" class="btn-login">INICIAR SESIÓN</a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm mb-4">
+      <div class="container">
+        <a class="navbar-brand fw-bold" href="/">🌿 Herbario Botánico</a>
+
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto align-items-center">
+            <li
+              class="nav-item"
+              th:if="${#authentication.principal == 'anonymousUser'}"
+            >
+              <a th:href="@{/login}" class="btn btn-outline-light px-4"
+                >INICIAR SESIÓN</a
+              >
+            </li>
+
+            <th:block th:if="${#authentication.principal != 'anonymousUser'}">
+              <li class="nav-item">
+                <a
+                  th:href="@{/registro-planta/asistente}"
+                  class="nav-link text-info fw-bold"
+                  >✨ CHAT IA</a
+                >
+              </li>
+              <li class="nav-item">
+                <a th:href="@{/add}" class="nav-link">➕ Agregar Planta</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/perfil">👤 Mi Perfil</a>
+              </li>
+
+              <li class="nav-item ms-lg-3">
+                <div
+                  class="d-flex align-items-center bg-secondary bg-opacity-25 rounded-pill px-3 py-1 border border-secondary"
+                >
+                  <span class="text-light small">
+                    Hola, <b th:text="${#authentication.name}">Usuario</b>
+                    <span
+                      class="badge bg-success ms-1"
+                      th:text="${usuarioActual != null ? usuarioActual.getRango() : 'Semilla'}"
+                      >Rango</span
+                    >
+                    Tus puntos: <span th:text="${usuarioActual.puntos}"></span>
+                  </span>
+
+                  <form th:action="@{/logout}" method="post" class="ms-3">
+                    <button
+                      type="submit"
+                      class="btn btn-sm btn-danger rounded-pill"
+                    >
+                      Salir
+                    </button>
+                  </form>
+                </div>
+              </li>
+            </th:block>
+          </ul>
+        </div>
       </div>
+    </nav>
 
-      <div th:if="${#authentication.principal != 'anonymousUser'}">
-        <a th:href="@{/add}" class="btn-add">Agregar Nueva Planta</a>
-
-        <form th:action="@{/logout}" method="post" style="display: inline">
-          <button type="submit" class="btn-logout">Cerrar Sesión</button>
-        </form>
-
-        <span class="user-info">
-          Hola, <b th:text="${#authentication.name}">Usuario</b> (Rango:
-          <span
-            th:text="${usuarioActual != null ? usuarioActual.getRango() : 'Semilla'}"
-          ></span
-          >)
-        </span>
-      </div>
-    </div>
-
-    <p th:if="${usuarioActual != null}">
+    <!-- <p th:if="${usuarioActual != null}">
       Tus puntos: <span th:text="${usuarioActual.puntos}"></span> Rango:
       <span th:text="${usuarioActual.getRango()}"></span>
-    </p>
+    </p> -->
 
     <table border="1">
       <thead>
@@ -80,8 +127,47 @@
       </tbody>
     </table>
 
+    <div class="container mt-5">
+      <h2 class="text-center mb-4">🏆 Ranking de Botánicos</h2>
+      <div class="table-responsive">
+        <table class="table table-hover shadow-sm">
+          <thead class="table-dark">
+            <tr>
+              <th>Puesto</th>
+              <th>Usuario</th>
+              <th>Puntos</th>
+              <th>Rango</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="user, iterStat : ${ranking}">
+              <td th:text="${iterStat.count}">1</td>
+              <td th:text="${user.username}" style="font-weight: bold">
+                Nombre
+              </td>
+              <td>
+                <span class="badge bg-primary" th:text="${user.puntos} + ' pts'"
+                  >0 pts</span
+                >
+              </td>
+              <td>
+                <span
+                  class="badge"
+                  th:classappend="${user.rango == 'Maestro Botánico' ? 'bg-warning text-dark' : (user.rango == 'Explorador' ? 'bg-info' : 'bg-secondary')}"
+                  th:text="${user.rango}"
+                  >Novato</span
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
     <div th:if="${#authentication.principal != 'anonymousUser'}">
-      <a th:href="@{/registro-planta/asistente}" class="btn-login">CHAT DE IA</a>
+      <a th:href="@{/registro-planta/asistente}" class="btn-login"
+        >CHAT DE IA</a
+      >
     </div>
   </body>
 </html>
