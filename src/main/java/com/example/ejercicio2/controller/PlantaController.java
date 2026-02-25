@@ -97,9 +97,9 @@ public class PlantaController {
                     .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
             // Sumamos 10 puntos (esto disparará el cambio de rango automáticamente al consultar getRango)
-            autor.setPuntos(autor.getPuntos() + 10);
-
             String rangoAnterior = autor.getRango();
+            
+            autor.setPuntos(autor.getPuntos() + 10);
 
             // 3. Sumamos los puntos y guardamos
             usuarioRepo.save(autor);

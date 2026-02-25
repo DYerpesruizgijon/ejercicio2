@@ -7,9 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -38,18 +36,31 @@ public class EmailService {
     private void llamarApiBrevo(String destino, String nombreDestino, String asunto, String contenido) {
         RestTemplate restTemplate = new RestTemplate();
 
-        // 1. Configurar Cabeceras
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("api-key", apiKey);
 
-        // 2. Construir el JSON manualmente para no fallar
+        // --- DISEÑO HTML ---
+        String htmlLayout
+                = "<html><body style='font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;'>"
+                + "  <div style='max-width: 600px; margin: auto; background: white; padding: 30px; border-radius: 10px; border: 1px solid #ddd;'>"
+                + "    <h2 style='color: #2e7d32; text-align: center;'>🌿 Enciclopedia de Plantas</h2>"
+                + "    <hr style='border: 0; border-top: 1px solid #eee;'>"
+                + "    <p style='font-size: 16px; color: #333;'>Hola <strong>" + nombreDestino + "</strong>,</p>"
+                + "    <p style='font-size: 16px; color: #555; line-height: 1.5;'>" + contenido + "</p>"
+                + "    <div style='text-align: center; margin-top: 30px;'>"
+                + "      <a href='https://tu-app-en-render.onrender.com' style='background-color: #2e7d32; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px;'>Visitar mi Jardín</a>"
+                + "    </div>"
+                + "    <p style='margin-top: 40px; font-size: 12px; color: #999; text-align: center;'>Este es un mensaje automático, por favor no respondas.</p>"
+                + "  </div>"
+                + "</body></html>";
+
         Map<String, Object> body = new HashMap<>();
-        
+
         Map<String, String> sender = new HashMap<>();
         sender.put("name", "Enciclopedia Plantas");
         sender.put("email", EMAIL_REMITENTE);
-        
+
         Map<String, String> to = new HashMap<>();
         to.put("email", destino);
         to.put("name", nombreDestino);
@@ -57,17 +68,15 @@ public class EmailService {
         body.put("sender", sender);
         body.put("to", Collections.singletonList(to));
         body.put("subject", asunto);
-        body.put("textContent", contenido);
+        // Cambiamos textContent por htmlContent
+        body.put("htmlContent", htmlLayout);
 
         HttpEntity<Map<String, Object>> request = new HttpEntity<>(body, headers);
 
         try {
-            ResponseEntity<String> response = restTemplate.postForEntity(BREVO_API_URL, request, String.class);
-            if (response.getStatusCode() == HttpStatus.CREATED) {
-                System.out.println("✅ Email enviado con éxito por API");
-            }
+            restTemplate.postForEntity(BREVO_API_URL, request, String.class);
         } catch (Exception e) {
-            System.err.println("❌ Error al llamar a Brevo: " + e.getMessage());
+            System.err.println("❌ Error Brevo HTML: " + e.getMessage());
         }
     }
 }
