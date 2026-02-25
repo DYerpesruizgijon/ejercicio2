@@ -6,6 +6,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -130,22 +131,43 @@ public class PlantaController {
     }
 
     @PostMapping("/edit/{id}")
-    public String editPlanta(@PathVariable Long id, Planta planta) {
-        // 1. FUNDAMENTAL: Le ponemos el ID de la URL a la planta 
-        // para que Spring sepa que es una EDICIÓN y no un ALTA
-        planta.setId(id);
+    public String editPlanta(@PathVariable Long id,
+            @ModelAttribute Planta plantaForm,
+            @RequestParam(value = "imagenFile", required = false) MultipartFile imagenFile) {
 
-        // 2. Misma lógica que en añadir para el Tipo
-        Tipo existente = tipoRepo.findByNombre(planta.getTipo().getNombre());
+        // 1. Buscamos la planta real en la DB para no perder datos importantes
+        Planta plantaBD = repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Planta no encontrada"));
+
+        // 2. Actualizamos los datos que vienen del formulario
+        plantaBD.setNombre(plantaForm.getNombre());
+        plantaBD.setAltura(plantaForm.getAltura());
+        plantaBD.setUbicacion(plantaForm.getUbicacion());
+        plantaBD.setRareza(plantaForm.getRareza());
+        plantaBD.setNotasCampo(plantaForm.getNotasCampo());
+
+        // 3. Lógica del Tipo (usando tu lógica de buscar por nombre)
+        Tipo existente = tipoRepo.findByNombre(plantaForm.getTipo().getNombre());
         if (existente != null) {
-            planta.setTipo(existente);
+            plantaBD.setTipo(existente);
         } else {
-            // Si el usuario cambia el tipo por uno que no existe, lo creamos
-            tipoRepo.save(planta.getTipo());
+            tipoRepo.save(plantaForm.getTipo());
+            plantaBD.setTipo(plantaForm.getTipo());
         }
 
-        repo.save(planta);
-        return "redirect:/";
+        // 4. NUEVA FOTO: Solo si el usuario ha subido un archivo nuevo
+        if (imagenFile != null && !imagenFile.isEmpty()) {
+            try {
+                String urlNueva = cloudinaryService.subirImagen(imagenFile);
+                plantaBD.setFotoUrl(urlNueva);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        // Si no sube nada, plantaBD mantiene la fotoUrl que ya tenía.
+
+        repo.save(plantaBD);
+        return "redirect:/perfil"; // Mejor redirigir al perfil para ver el cambio
     }
 
     //  Mostrar la página de confirmación
