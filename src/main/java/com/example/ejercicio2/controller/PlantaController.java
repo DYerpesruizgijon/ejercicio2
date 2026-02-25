@@ -126,9 +126,12 @@ public class PlantaController {
 
     @GetMapping("/edit/{id}")
     public String editForm(@PathVariable Long id, Model model) {
-        model.addAttribute("planta", repo.findById(id).get());
+        Planta planta = repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Planta no encontrada con ID: " + id));
+
+        model.addAttribute("planta", planta);
         model.addAttribute("todosLosTipos", tipoRepo.findAll());
-        return "edit"; // template para editar
+        return "edit";
     }
 
     @PostMapping("/edit/{id}")

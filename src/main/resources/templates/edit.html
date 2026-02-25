@@ -33,13 +33,14 @@
             </div>
 
             <div class="mb-3">
-              <label>Tipo de Planta:</label>
-              <select th:field="*{tipo.id}" required>
+              <label class="form-label fw-bold">Tipo de Planta *</label>
+              <select th:field="*{tipo.id}" class="form-select" required>
                 <option value="">-- Selecciona un tipo --</option>
                 <option
                   th:each="t : ${todosLosTipos}"
                   th:value="${t.id}"
                   th:text="${t.nombre}"
+                  th:selected="${t.id == planta.tipo?.id}"
                 ></option>
               </select>
             </div>
