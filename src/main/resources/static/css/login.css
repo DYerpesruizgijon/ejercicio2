@@ -4,153 +4,153 @@
 
 /* 1. Base y Fondo */
 .login-body {
-    background: linear-gradient(135deg, #1e3932 0%, #0b1a15 100%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    padding: 20px;
-    box-sizing: border-box;
+  background: linear-gradient(135deg, #1e3932 0%, #0b1a15 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 /* Contenedor principal para centrado extra */
 .login-container {
-    width: 100%;
-    max-width: 420px;
-    display: flex;
-    justify-content: center;
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  justify-content: center;
 }
 
 /* 2. La Tarjeta */
 .card-login {
-    background: #ffffff;
-    padding: 2.5rem;
-    border-radius: 20px;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-    width: 100%;
-    text-align: center;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #ffffff;
+  padding: 2.5rem;
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+  width: 100%;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .card-header h2 {
-    color: #1e3932;
-    margin: 0 0 0.5rem 0;
-    font-size: 1.8rem;
-    font-weight: 700;
+  color: #1e3932;
+  margin: 0 0 0.5rem 0;
+  font-size: 1.8rem;
+  font-weight: 700;
 }
 
 .card-header p {
-    color: #666;
-    font-size: 0.95rem;
-    margin-bottom: 2rem;
+  color: #666;
+  font-size: 0.95rem;
+  margin-bottom: 2rem;
 }
 
 /* 3. Formularios e Inputs */
 .input-group {
-    text-align: left;
-    margin-bottom: 1.5rem;
+  text-align: left;
+  margin-bottom: 1.5rem;
 }
 
 .input-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    color: #2d5a27;
-    font-size: 0.85rem;
-    font-weight: 700;
-    text-transform: uppercase;
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #2d5a27;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
 .input-group input {
-    width: 100%;
-    padding: 14px;
-    border: 2px solid #f0f0f0;
-    border-radius: 10px;
-    box-sizing: border-box;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    background-color: #fdfdfd;
+  width: 100%;
+  padding: 14px;
+  border: 2px solid #f0f0f0;
+  border-radius: 10px;
+  box-sizing: border-box;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background-color: #fdfdfd;
 }
 
 .input-group input:focus {
-    outline: none;
-    border-color: #198754;
-    background-color: #ffffff;
-    box-shadow: 0 0 10px rgba(25, 135, 84, 0.1);
+  outline: none;
+  border-color: #198754;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(25, 135, 84, 0.1);
 }
 
 /* 4. Botones */
 .btn-login {
-    background-color: #198754;
-    color: white;
-    width: 100%;
-    padding: 14px;
-    border: none;
-    border-radius: 10px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 0.5rem;
+  background-color: #198754;
+  color: white;
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 0.5rem;
 }
 
 .btn-login:hover {
-    background-color: #146c43;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(25, 135, 84, 0.3);
+  background-color: #146c43;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(25, 135, 84, 0.3);
 }
 
 /* Sección de registro */
 .register-container {
-    margin-top: 2rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid #eee;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #eee;
 }
 
 .btn-register {
-    display: inline-block;
-    color: #198754;
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 0.9rem;
-    border: 2px solid #198754;
-    padding: 10px 20px;
-    border-radius: 10px;
-    transition: all 0.3s ease;
+  display: inline-block;
+  color: #198754;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.9rem;
+  border: 2px solid #198754;
+  padding: 10px 20px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
 }
 
 .btn-register:hover {
-    background-color: #198754;
-    color: white;
+  background-color: #198754;
+  color: white;
 }
 
 /* 5. Alertas y Errores */
 .alert-error {
-    background-color: #fff5f5;
-    color: #e53e3e;
-    padding: 12px;
-    border-radius: 8px;
-    margin-bottom: 1.5rem;
-    font-size: 0.9rem;
-    border-left: 4px solid #e53e3e;
-    text-align: left;
+  background-color: #fff5f5;
+  color: #e53e3e;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  border-left: 4px solid #e53e3e;
+  text-align: left;
 }
 
 /* 6. Footer */
 .card-footer {
-    margin-top: 1.5rem;
+  margin-top: 1.5rem;
 }
 
 .card-footer a {
-    color: #999;
-    text-decoration: none;
-    font-size: 0.85rem;
-    transition: color 0.2s;
+  color: #999;
+  text-decoration: none;
+  font-size: 0.85rem;
+  transition: color 0.2s;
 }
 
 .card-footer a:hover {
-    color: #1e3932;
+  color: #1e3932;
 }
 
 /* =========================================
@@ -159,24 +159,36 @@
 
 /* Móviles */
 @media (max-width: 480px) {
-    .login-body {
-        align-items: flex-start;
-        padding-top: 40px;
-    }
+  .login-body {
+    align-items: flex-start;
+    padding-top: 40px;
+    /* Evita que el fondo se corte si el contenido es largo */
+    height: auto;
+  }
 
-    .card-login {
-        padding: 1.5rem;
-        border-radius: 15px;
-    }
+  .card-login {
+    padding: 1.5rem;
+    border-radius: 15px;
+    /* Quitamos el ancho fijo para que use todo el espacio disponible */
+    width: 100% !important;
+    box-shadow: none; /* En móvil las sombras pesadas a veces saturan */
+  }
 
-    .card-header h2 {
-        font-size: 1.5rem;
-    }
+  /* Aumentamos el tamaño de los inputs para que sean fáciles de tocar */
+  .input-group input {
+    padding: 16px;
+    font-size: 16px !important; /* CRÍTICO: Evita que el iPhone haga zoom automático al escribir */
+  }
+
+  .btn-login {
+    padding: 16px;
+    font-size: 1.2rem;
+  }
 }
 
 /* Dispositivos en horizontal (móviles girados) */
 @media (max-height: 550px) {
-    .login-body {
-        align-items: flex-start;
-    }
+  .login-body {
+    align-items: flex-start;
+  }
 }

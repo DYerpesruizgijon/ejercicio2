@@ -2,17 +2,16 @@
    1. VARIABLES Y RESET
    ============================================= */
 :root {
-  --primary: #2d6a4f; /* Verde oscuro botánico */
-  --secondary: #52b788; /* Verde hoja */
-  --bg: #f8fdf9; /* Blanco menta */
+  --primary: #2d6a4f;
+  --secondary: #52b788;
+  --bg: #f8fdf9;
   --text: #1b4332;
   --danger: #e63946;
-  --glass: rgba(255, 255, 255, 0.85); /* Para el efecto cristal */
+  --glass: rgba(255, 255, 255, 0.85);
 }
 
 body {
   font-family: "Segoe UI", system-ui, sans-serif;
-  /* Gradiente sobre la imagen para que el texto siempre sea legible */
   background-image:
     linear-gradient(rgba(248, 253, 249, 0.8), rgba(248, 253, 249, 0.8)),
     url("/img/fondo.jpg");
@@ -27,10 +26,8 @@ body {
 }
 
 /* =============================================
-   2. COMPONENTES DEL DASHBOARD (Estructura)
+   2. ESTRUCTURA Y CONTENEDORES
    ============================================= */
-
-/* Contenedores con efecto cristal */
 .header-container,
 .content-box,
 .ranking-box {
@@ -44,24 +41,71 @@ body {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
 }
 
+h1, h2 {
+  color: var(--primary);
+  font-weight: 700;
+}
+
 h1 {
   font-size: 2.2rem;
-  color: var(--primary);
   border-bottom: 3px solid var(--secondary);
   padding-bottom: 10px;
-  margin-bottom: 20px;
 }
 
 /* =============================================
-   3. TARJETAS DE PLANTAS (Cards)
+   3. NAVBAR (CORREGIDO PARA MÓVIL)
+   ============================================= */
+
+/* Ajustes para Desktop (PC) */
+@media (min-width: 992px) {
+  .navbar-nav {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+  }
+  .navbar-nav .nav-item {
+    margin-left: 15px;
+  }
+}
+
+/* Ajustes para Móvil (Colapsado) */
+@media (max-width: 991px) {
+  .navbar-nav {
+    display: flex !important;
+    flex-direction: column !important; /* Apilado vertical */
+    align-items: stretch !important;
+    padding: 15px 0;
+    gap: 10px;
+  }
+  
+  .navbar-collapse {
+    background: rgba(0, 0, 0, 0.9); /* Fondo oscuro para el menú móvil */
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 10px;
+  }
+
+  .nav-item.ms-lg-3 div {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 10px;
+    border-radius: 12px !important;
+    padding: 15px !important;
+  }
+}
+
+.navbar-nav .nav-link {
+  white-space: nowrap;
+}
+
+/* =============================================
+   4. TARJETAS Y TABLAS
    ============================================= */
 .card {
   border: none !important;
   border-radius: 15px !important;
   overflow: hidden;
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   background: white !important;
   height: 100%;
 }
@@ -73,126 +117,13 @@ h1 {
 
 .card-img-top {
   height: 200px;
-  object-fit: cover; /* Evita que la foto se deforme */
+  object-fit: cover;
 }
 
-.card-title {
-  color: var(--primary);
-  font-weight: bold;
-}
-
-/* =============================================
-   4. RANKING Y TABLAS
-   ============================================= */
-.table-custom-res {
+/* Tablas generales */
+.table-custom-res, .table {
   background: white;
   border-radius: 12px;
-  overflow: hidden;
-}
-
-.table thead {
-  background-color: var(--primary);
-  color: white;
-}
-
-/* Efecto de Medallas para el Ranking */
-tbody tr:nth-child(1) td:first-child {
-  font-weight: bold;
-  color: #ffd700; /* Oro */
-  font-size: 1.2rem;
-}
-tbody tr:nth-child(2) td:first-child {
-  font-weight: bold;
-  color: #c0c0c0; /* Plata */
-}
-tbody tr:nth-child(3) td:first-child {
-  font-weight: bold;
-  color: #cd7f32; /* Bronce */
-}
-
-/* =============================================
-   5. BOTONES Y FORMULARIOS (Bootstrap Overrides)
-   ============================================= */
-.btn-primary {
-  background-color: var(--primary) !important;
-  border-color: var(--primary) !important;
-  border-radius: 8px !important;
-  padding: 10px 20px !important;
-  font-weight: 600 !important;
-}
-
-.btn-primary:hover {
-  background-color: var(--secondary) !important;
-  border-color: var(--secondary) !important;
-}
-
-.form-control {
-  border-radius: 8px !important;
-  border: 2px solid #edf2f4 !important;
-  padding: 12px !important;
-}
-
-.form-control:focus {
-  border-color: var(--secondary) !important;
-  box-shadow: 0 0 0 0.25rem rgba(82, 183, 136, 0.2) !important;
-}
-
-/* --- CORRECCIÓN NAVBAR HORIZONTAL --- */
-
-/* Forzamos que la lista de navegación sea una fila siempre en PC */
-.navbar-nav {
-  display: flex !important;
-  flex-direction: row !important;
-  align-items: center !important;
-}
-
-/* Separación entre los enlaces del menú */
-.navbar-nav .nav-item {
-  margin-left: 15px;
-}
-
-/* Quitamos el estilo de "formulario de contacto" a los forms del navbar */
-.navbar form {
-  background: transparent !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  box-shadow: none !important;
-  width: auto !important;
-}
-
-/* Evitamos que los textos se partan en dos líneas */
-.navbar-nav .nav-link,
-.navbar-nav span,
-.navbar-nav b {
-  white-space: nowrap !important;
-}
-
-/* Estilo para la pastilla de usuario */
-.user-pill-container {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-/* Ajuste para que en móviles muy pequeños el navbar no se rompa */
-@media (max-width: 576px) {
-  .navbar-brand {
-    font-size: 1rem;
-  }
-  .badge {
-    display: none; /* Escondemos el rango en móviles muy pequeños si no cabe */
-  }
-}
-
-/* =============================================
-   4. RANKING Y TABLAS (CORREGIDO)
-   ============================================= */
-
-/* Estilo base para todas las tablas */
-.table-custom-res {
-  background: white;
-  border-radius: 12px;
-  overflow: hidden;
 }
 
 .table thead {
@@ -201,117 +132,61 @@ tbody tr:nth-child(3) td:first-child {
 }
 
 /* --- ESTILOS EXCLUSIVOS DEL RANKING --- */
-/* Solo aplicamos efectos si la tabla está dentro de .ranking-box */
+.ranking-box tbody tr:nth-child(1) { background-color: rgba(255, 215, 0, 0.1) !important; border-left: 5px solid #ffd700; }
+.ranking-box tbody tr:nth-child(2) { background-color: rgba(192, 192, 192, 0.1) !important; border-left: 5px solid #c0c0c0; }
+.ranking-box tbody tr:nth-child(3) { background-color: rgba(205, 127, 50, 0.1) !important; border-left: 5px solid #cd7f32; }
 
-.ranking-box tbody tr:nth-child(1) {
-  background-color: rgba(255, 215, 0, 0.15) !important; /* Oro suave */
-  border-left: 5px solid #ffd700 !important;
-}
-.ranking-box tbody tr:nth-child(1) td:first-child {
-  font-weight: bold;
-  color: #b8860b; /* Dorado oscuro para legibilidad */
-  font-size: 1.2rem;
-}
-
-.ranking-box tbody tr:nth-child(2) {
-  background-color: rgba(192, 192, 192, 0.15) !important; /* Plata suave */
-  border-left: 5px solid #c0c0c0 !important;
-}
-.ranking-box tbody tr:nth-child(2) td:first-child {
-  font-weight: bold;
-  color: #707070;
+/* =============================================
+   5. BOTONES Y SELECTORES
+   ============================================= */
+.btn-primary {
+  background-color: var(--primary) !important;
+  border-color: var(--primary) !important;
+  border-radius: 8px !important;
 }
 
-.ranking-box tbody tr:nth-child(3) {
-  background-color: rgba(205, 127, 50, 0.15) !important; /* Bronce suave */
-  border-left: 5px solid #cd7f32 !important;
-}
-.ranking-box tbody tr:nth-child(3) td:first-child {
-  font-weight: bold;
-  color: #8b4513;
+.form-control, .form-select {
+  border-radius: 8px !important;
+  border: 2px solid #edf2f4 !important;
 }
 
-/* --- RESET PARA TABLAS NO-RANKING --- */
-/* Forzamos que cualquier otra tabla sea neutra */
-.table:not(.ranking-box table) tr {
-  background-color: transparent !important;
-  border-left: none !important;
-  color: var(--text) !important;
-}
-
-.table:not(.ranking-box table) td:first-child {
-  font-weight: normal !important;
-  color: var(--text) !important;
-  font-size: 1rem !important;
-}
-
-
-/* Corrección para selectores con texto invisible */
-select.form-select, 
+/* Texto invisible en selects */
 select.form-select option {
-    color: #212529 !important; /* Fuerza el color negro para el texto */
-    background-color: #ffffff !important; /* Fuerza el fondo blanco */
-}
-
-/* Asegura que el texto se vea incluso si el contenedor tiene estilos oscuros */
-.content-box select {
     color: #212529 !important;
+    background-color: #ffffff !important;
 }
 
 /* =============================================
-   6. MEDIA QUERIES (Responsive)
+   6. MEDIA QUERIES (RESPONSIVE FINAL)
    ============================================= */
 
-/* Tablets y PC pequeño */
-@media (max-width: 992px) {
-  .header-container {
-    flex-direction: column;
-    text-align: center;
-    gap: 15px;
-  }
-}
-
-/* Móviles (Pantalla vertical) */
 @media (max-width: 768px) {
-  body {
-    padding: 5px !important; /* Aprovecha el espacio */
-  }
+  body { padding: 0 !important; }
+  
+  .container-fluid { padding: 10px; }
 
-  .container-fluid {
-    padding-left: 10px;
-    padding-right: 10px;
-  }
+  h1 { font-size: 1.6rem !important; }
 
-  /* Las columnas se apilan: la derecha (ranking) baja debajo de la izquierda */
-  .col-md-8 {
-    margin-bottom: 20px;
-  }
-
-  h1 {
-    font-size: 1.7rem !important;
-  }
-
-  .card-img-top {
-    height: 160px;
-  }
-
-  /* Botones grandes para dedos en móvil */
-  .btn {
-    width: 100%;
-    margin-bottom: 8px;
-  }
-
-  /* Tabla responsive para que no se salga de la pantalla */
+  /* Tablas que no rompan el layout */
   .table-responsive {
-    border: 1px solid #eee;
     border-radius: 10px;
+    border: 1px solid rgba(0,0,0,0.05);
+    font-size: 0.85rem;
+  }
+
+  .table td, .table th {
+    padding: 12px 8px !important;
+  }
+
+  /* Forzamos que los inputs no hagan zoom en iPhone */
+  input, select, textarea {
+    font-size: 16px !important;
   }
 }
 
-/* Móviles muy pequeños */
 @media (max-width: 480px) {
-  .content-box,
-  .ranking-box {
+  .content-box, .ranking-box {
     padding: 15px;
+    border-radius: 0; /* Pantalla completa en móviles muy pequeños */
   }
 }
