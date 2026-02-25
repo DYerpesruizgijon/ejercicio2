@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.ejercicio2.Service.CloudinaryService;
+import com.example.ejercicio2.Service.EmailService;
 import com.example.ejercicio2.model.Planta;
 import com.example.ejercicio2.model.Tipo;
 import com.example.ejercicio2.model.Usuario;
@@ -24,12 +25,14 @@ public class PlantaController {
     private final TipoRepository tipoRepo;
     private final CloudinaryService cloudinaryService;
     private final UsuarioRepository usuarioRepo;
+    private final EmailService emailService;
 
-    public PlantaController(PlantaRepository repo, TipoRepository tipoRepo, CloudinaryService cloudinaryService, UsuarioRepository usuarioRepo) {
+    public PlantaController(PlantaRepository repo, TipoRepository tipoRepo, CloudinaryService cloudinaryService, UsuarioRepository usuarioRepo, EmailService emailService) {
         this.repo = repo;
         this.tipoRepo = tipoRepo;
         this.cloudinaryService = cloudinaryService;
         this.usuarioRepo = usuarioRepo;
+        this.emailService = emailService;
     }
 
     @GetMapping("/")
@@ -87,13 +90,28 @@ public class PlantaController {
 
             repo.save(planta);
 
+            /*LOGICA PARA SUMAR PUNTOS Y MANDAR CORREO */
+
             // Buscamos al usuario para actualizar sus puntos
             Usuario autor = usuarioRepo.findByUsername(authentication.getName())
                     .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
             // Sumamos 10 puntos (esto disparará el cambio de rango automáticamente al consultar getRango)
             autor.setPuntos(autor.getPuntos() + 10);
+
+            String rangoAnterior = autor.getRango();
+
+            // 3. Sumamos los puntos y guardamos
+            autor.setPuntos(autor.getPuntos() + 10);
             usuarioRepo.save(autor);
+
+            // 4. OBTENEMOS EL NUEVO RANGO (Después de la suma)
+            String rangoNuevo = autor.getRango();
+
+            // 5. COMPROBACIÓN: Si el rango ha cambiado, mandamos el email
+            if (!rangoAnterior.equals(rangoNuevo)) {
+                emailService.enviarEmailSubidaNivel(autor.getEmail(), autor.getUsername(), rangoNuevo);
+            }
         } catch (Exception e) {
             e.printStackTrace(); // Para ver errores en consola si falla la subida
         }

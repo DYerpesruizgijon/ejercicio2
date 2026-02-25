@@ -11,6 +11,16 @@ public class EmailService {
     @Autowired
     private JavaMailSender mailSender;
 
+    public void enviarEmailBienvenida(String destino, String nombreUsuario) {
+        SimpleMailMessage mensaje = new SimpleMailMessage();
+        mensaje.setTo(destino);
+        mensaje.setSubject("¡Bienvenido a la Enciclopedia de Plantas!");
+        mensaje.setText("Hola " + nombreUsuario + ",\n\n"
+                + "Gracias por unirte a nuestra comunidad. "
+                + "¡Empieza a subir tus plantas para ganar puntos y subir de nivel!");
+        mailSender.send(mensaje);
+    }
+
     public void enviarEmailSubidaNivel(String destino, String nombre, String nivel) {
         SimpleMailMessage mensaje = new SimpleMailMessage();
         mensaje.setTo(destino);
