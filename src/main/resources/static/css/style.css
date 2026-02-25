@@ -171,6 +171,38 @@ select.form-select option {
 }
 
 /* =============================================
+   6. LOGROS
+   ============================================= */
+
+/* Estilo base de la tarjeta de logro */
+.achievement-card {
+  padding: 15px;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+/* Logro bloqueado: Gris y opaco */
+.achievement-card.locked {
+  filter: grayscale(1);
+  opacity: 0.4;
+  border-style: dashed;
+}
+
+/* Logro desbloqueado: Color y sombra */
+.achievement-card.unlocked {
+  background: rgba(40, 167, 69, 0.2); /* Fondo verde suave */
+  border-color: #28a745;
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.achievement-card.unlocked i {
+  color: #ffc107; /* Color dorado para el icono */
+}
+
+/* =============================================
    6. MEDIA QUERIES (RESPONSIVE FINAL)
    ============================================= */
 
@@ -212,5 +244,49 @@ select.form-select option {
   .ranking-box {
     padding: 15px;
     border-radius: 0; /* Pantalla completa en móviles muy pequeños */
+  }
+}
+
+/* =============================================
+   7. SECCIÓN DE RANGOS (INTERCALADO)
+   ============================================= */
+
+/* Estilo para los bloques de rango en PC */
+section.container .row.align-items-center {
+  transition: transform 0.3s ease;
+}
+
+section.container .row.align-items-center:hover {
+  transform: scale(1.01);
+}
+
+/* Ajuste para que las imágenes se vean bien en los bloques */
+section.container img {
+  border-radius: 0; /* Se ajusta al contenedor redondeado */
+}
+
+/* MEDIA QUERY ESPECÍFICA PARA EL ORDEN EN MÓVIL */
+@media (max-width: 767px) {
+  section.container .row {
+    display: flex;
+    /* IMPORTANTE: Esto pone el Texto arriba y la Foto abajo en móvil */
+    flex-direction: column-reverse !important;
+    margin-bottom: 30px !important;
+    border-radius: 15px !important;
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+
+  section.container .col-12 {
+    padding: 20px !important;
+  }
+
+  section.container img {
+    height: 200px !important; /* Foto más compacta en móvil */
+  }
+
+  section.container h3 {
+    text-align: center;
+    font-size: 1.5rem;
   }
 }

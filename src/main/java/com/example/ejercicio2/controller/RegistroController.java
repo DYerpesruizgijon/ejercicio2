@@ -37,17 +37,14 @@ public class RegistroController {
 
         if (!password.equals(passwordCompro)) {
             model.addAttribute("error", "Las contraseñas no coinciden.");
-            model.addAttribute("username", username);
             return "registro";
         }
 
         if (password.length() < 6) {
             model.addAttribute("error", "Las contraseña es demasiado corta.");
-            model.addAttribute("username", username);
             return "registro";
         } else if (password.length() > 20) {
             model.addAttribute("error", "Las contraseña es demasiado larga.");
-            model.addAttribute("username", username);
             return "registro";
         }
 
