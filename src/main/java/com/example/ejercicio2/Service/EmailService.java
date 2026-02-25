@@ -76,7 +76,7 @@ public class EmailService {
         try {
             restTemplate.postForEntity(BREVO_API_URL, request, String.class);
         } catch (Exception e) {
-            System.err.println("❌ Error Brevo HTML: " + e.getMessage());
+            System.err.println(" Error Brevo HTML: " + e.getMessage());
         }
     }
 }
