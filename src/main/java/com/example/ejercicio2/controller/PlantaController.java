@@ -148,12 +148,10 @@ public class PlantaController {
         plantaBD.setNotasCampo(plantaForm.getNotasCampo());
 
         // 3. Lógica del Tipo (usando tu lógica de buscar por nombre)
-        Tipo existente = tipoRepo.findByNombre(plantaForm.getTipo().getNombre());
-        if (existente != null) {
-            plantaBD.setTipo(existente);
-        } else {
-            tipoRepo.save(plantaForm.getTipo());
-            plantaBD.setTipo(plantaForm.getTipo());
+        if (plantaForm.getTipo() != null && plantaForm.getTipo().getId() != null) {
+            Tipo tipoSeleccionado = tipoRepo.findById(plantaForm.getTipo().getId())
+                    .orElseThrow(() -> new RuntimeException("Tipo no encontrado"));
+            plantaBD.setTipo(tipoSeleccionado);
         }
 
         // 4. NUEVA FOTO: Solo si el usuario ha subido un archivo nuevo
