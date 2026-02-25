@@ -102,7 +102,6 @@ public class PlantaController {
             String rangoAnterior = autor.getRango();
 
             // 3. Sumamos los puntos y guardamos
-            autor.setPuntos(autor.getPuntos() + 10);
             usuarioRepo.save(autor);
 
             // 4. OBTENEMOS EL NUEVO RANGO (Después de la suma)

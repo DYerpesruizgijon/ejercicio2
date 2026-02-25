@@ -12,10 +12,17 @@ public class EmailService {
     @Autowired
     private JavaMailSender mailSender;
 
+    // private final JavaMailSender mailSender;
+
+    // public EmailService( JavaMailSender mailSender){
+    //     this.mailSender=mailSender;
+    // }
+
     @Async
     public void enviarEmailBienvenida(String destino, String nombreUsuario) {
         SimpleMailMessage mensaje = new SimpleMailMessage();
         mensaje.setTo(destino);
+        mensaje.setFrom("david.yerpes-gordillo@iesruizgijon.com");
         mensaje.setSubject("¡Bienvenido a la Enciclopedia de Plantas!");
         mensaje.setText("Hola " + nombreUsuario + ",\n\n"
                 + "Gracias por unirte a nuestra comunidad. "
@@ -26,6 +33,7 @@ public class EmailService {
     public void enviarEmailSubidaNivel(String destino, String nombre, String nivel) {
         SimpleMailMessage mensaje = new SimpleMailMessage();
         mensaje.setTo(destino);
+        mensaje.setFrom("david.yerpes-gordillo@iesruizgijon.com");
         mensaje.setSubject("¡Subida de Nivel en tu Enciclopedia!");
         mensaje.setText("¡Felicidades " + nombre + "! Has alcanzado el rango de " + nivel);
         mailSender.send(mensaje);
