@@ -127,6 +127,7 @@ public class PlantaController {
     @GetMapping("/edit/{id}")
     public String editForm(@PathVariable Long id, Model model) {
         model.addAttribute("planta", repo.findById(id).get());
+        model.addAttribute("todosLosTipos", tipoRepo.findAll());
         return "edit"; // template para editar
     }
 
