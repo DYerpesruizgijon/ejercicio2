@@ -245,6 +245,19 @@ tbody tr:nth-child(3) td:first-child {
   font-size: 1rem !important;
 }
 
+
+/* Corrección para selectores con texto invisible */
+select.form-select, 
+select.form-select option {
+    color: #212529 !important; /* Fuerza el color negro para el texto */
+    background-color: #ffffff !important; /* Fuerza el fondo blanco */
+}
+
+/* Asegura que el texto se vea incluso si el contenedor tiene estilos oscuros */
+.content-box select {
+    color: #212529 !important;
+}
+
 /* =============================================
    6. MEDIA QUERIES (Responsive)
    ============================================= */
