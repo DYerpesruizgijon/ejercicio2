@@ -204,4 +204,18 @@ public class PlantaController {
         }
         return "redirect:/login";
     }
+
+    @GetMapping("/planta/detalle/{id}")
+    public String mostrarDetalles(@PathVariable("id") Long id, Model model) {
+        // Buscamos la planta por su ID
+        Planta planta = repo.findById(id).orElse(null);
+
+        if (planta == null) {
+            return "redirect:/"; // Si no existe, al index
+        }
+
+        model.addAttribute("planta", planta);
+        return "detalles"; // El nombre del archivo HTML
+    }
+
 }
