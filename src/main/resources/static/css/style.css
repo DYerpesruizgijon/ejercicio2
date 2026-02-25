@@ -41,7 +41,8 @@ body {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
 }
 
-h1, h2 {
+h1,
+h2 {
   color: var(--primary);
   font-weight: 700;
 }
@@ -77,7 +78,7 @@ h1 {
     padding: 15px 0;
     gap: 10px;
   }
-  
+
   .navbar-collapse {
     background: rgba(0, 0, 0, 0.9); /* Fondo oscuro para el menú móvil */
     padding: 15px;
@@ -105,7 +106,9 @@ h1 {
   border: none !important;
   border-radius: 15px !important;
   overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
   background: white !important;
   height: 100%;
 }
@@ -121,7 +124,8 @@ h1 {
 }
 
 /* Tablas generales */
-.table-custom-res, .table {
+.table-custom-res,
+.table {
   background: white;
   border-radius: 12px;
 }
@@ -132,9 +136,18 @@ h1 {
 }
 
 /* --- ESTILOS EXCLUSIVOS DEL RANKING --- */
-.ranking-box tbody tr:nth-child(1) { background-color: rgba(255, 215, 0, 0.1) !important; border-left: 5px solid #ffd700; }
-.ranking-box tbody tr:nth-child(2) { background-color: rgba(192, 192, 192, 0.1) !important; border-left: 5px solid #c0c0c0; }
-.ranking-box tbody tr:nth-child(3) { background-color: rgba(205, 127, 50, 0.1) !important; border-left: 5px solid #cd7f32; }
+.ranking-box tbody tr:nth-child(1) {
+  background-color: rgba(255, 215, 0, 0.1) !important;
+  border-left: 5px solid #ffd700;
+}
+.ranking-box tbody tr:nth-child(2) {
+  background-color: rgba(192, 192, 192, 0.1) !important;
+  border-left: 5px solid #c0c0c0;
+}
+.ranking-box tbody tr:nth-child(3) {
+  background-color: rgba(205, 127, 50, 0.1) !important;
+  border-left: 5px solid #cd7f32;
+}
 
 /* =============================================
    5. BOTONES Y SELECTORES
@@ -145,47 +158,58 @@ h1 {
   border-radius: 8px !important;
 }
 
-.form-control, .form-select {
+.form-control,
+.form-select {
   border-radius: 8px !important;
   border: 2px solid #edf2f4 !important;
 }
 
 /* Texto invisible en selects */
 select.form-select option {
-    color: #212529 !important;
-    background-color: #ffffff !important;
+  color: #212529 !important;
+  background-color: #ffffff !important;
 }
 
 /* =============================================
    6. MEDIA QUERIES (RESPONSIVE FINAL)
    ============================================= */
 
+/* Media Query para móviles */
 @media (max-width: 768px) {
-  body { padding: 0 !important; }
-  
-  .container-fluid { padding: 10px; }
-
-  h1 { font-size: 1.6rem !important; }
-
-  /* Tablas que no rompan el layout */
-  .table-responsive {
-    border-radius: 10px;
-    border: 1px solid rgba(0,0,0,0.05);
-    font-size: 0.85rem;
+  /* Forzamos que el contenedor principal ocupe el 100% */
+  .container,
+  .content-box,
+  .login-box,
+  .registro-box {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 20px !important;
+    border-radius: 0 !important; /* Opcional: quita bordes redondeados en móvil */
   }
 
-  .table td, .table th {
-    padding: 12px 8px !important;
+  /* Ajustamos los inputs para que sean fáciles de tocar */
+  input.form-control {
+    font-size: 16px !important; /* Evita que iOS haga zoom automático al escribir */
+    height: 50px;
   }
 
-  /* Forzamos que los inputs no hagan zoom en iPhone */
-  input, select, textarea {
-    font-size: 16px !important;
+  button {
+    width: 100% !important; /* Botones a lo ancho de la pantalla */
+    height: 50px;
+    font-size: 1.1rem !important;
+  }
+
+  /* Si tienes la imagen de fondo, la ajustamos para que no desplace el contenido */
+  body {
+    background-attachment: scroll;
+    background-size: cover;
   }
 }
 
 @media (max-width: 480px) {
-  .content-box, .ranking-box {
+  .content-box,
+  .ranking-box {
     padding: 15px;
     border-radius: 0; /* Pantalla completa en móviles muy pequeños */
   }
