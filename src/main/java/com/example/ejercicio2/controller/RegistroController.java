@@ -33,7 +33,12 @@ public class RegistroController {
     }
 
     @PostMapping("/registro")
-    public String registrarUsuario(@RequestParam String username, @RequestParam String password, @RequestParam String email, @RequestParam String emailComprobar, Model model) {
+    public String registrarUsuario(@RequestParam String username, @RequestParam String password, @RequestParam String email, @RequestParam String emailComprobar,@RequestParam String passwordCompro, Model model) {
+
+        if (!password.equals(passwordCompro)) {
+            model.addAttribute("error", "Las contraseñas no coinciden.");
+            return "registro"; 
+        }
 
         // COMPROBACIÓN de email mal escrito
         if (!email.equalsIgnoreCase(emailComprobar)) {
