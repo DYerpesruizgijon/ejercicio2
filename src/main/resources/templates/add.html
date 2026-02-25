@@ -2,53 +2,81 @@
 <html xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
-    <title>Enciclopedia de Plantas</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Planta - Enciclopedia</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/style.css}" />
   </head>
-  <body>
-    <h1>Agregar Planta</h1>
-    <form th:action="@{/add}" th:object="${planta}" method="post" enctype="multipart/form-data">
-      
-      <label>Nombre *: <input type="text" th:field="*{nombre}" required/></label><br />
-      
-      <label>Tipo *:</label>
-      <select th:field="*{tipo.id}" required>
-          <option value="" disabled selected>Selecciona un tipo...</option>
-          <option th:each="t : ${todosLosTipos}" 
-                  th:value="${t.id}" 
-                  th:text="${t.nombre}">
-          </option>
-      </select>
-      <br />      
-      
-      <label>Altura (M) *:
-        <input
-          type="number"
-          step="0.01"
-          th:field="*{altura}"
-          max="100"
-          min="0.1" required/>
-      </label><br />
+  <body class="container py-5">
+    
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-8 col-lg-6">
+        
+        <div class="content-box p-4">
+          <h1 class="text-center mb-4">Agregar Nueva Planta</h1>
 
-      <label>Fotografía de la planta: 
-        <input type="file" name="imagenFile" accept="image/*" />
-      </label><br />
+          <form th:action="@{/add}" th:object="${planta}" method="post" enctype="multipart/form-data">
+            
+            <div class="mb-3">
+              <label class="form-label fw-bold">Nombre *</label>
+              <input type="text" th:field="*{nombre}" class="form-control" placeholder="Ej: Helecho Real" required/>
+            </div>
 
-      <label>Ubicación del hallazgo *:</label>
-      <input type="text" th:field="*{ubicacion}" required/>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Tipo *</label>
+              <select th:field="*{tipo.id}" class="form-select" required>
+                  <option value="" disabled selected>Selecciona un tipo...</option>
+                  <option th:each="t : ${todosLosTipos}" 
+                          th:value="${t.id}" 
+                          th:text="${t.nombre}">
+                  </option>
+              </select>
+            </div>
 
-      <label>Rareza *:</label>
-      <select th:field="*{rareza}" required>
-        <option value="Comun">Común</option>
-        <option value="Rara">Rara</option>
-        <option value="Legendaria">Legendaria</option>
-      </select>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Altura (M) *</label>
+                <input type="number" step="0.01" th:field="*{altura}" 
+                       max="100" min="0.1" class="form-control" placeholder="0.00" required/>
+              </div>
 
-      <label>Notas de campo:</label>
-      <textarea th:field="*{notasCampo}"></textarea>
-      
-      <button type="submit">Guardar</button>
-    </form>
-    <a href="/">Volver</a>
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Rareza *</label>
+                <select th:field="*{rareza}" class="form-select" required>
+                  <option value="Comun">Común</option>
+                  <option value="Rara">Rara</option>
+                  <option value="Legendaria">Legendaria</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-bold">Ubicación del hallazgo *</label>
+              <input type="text" th:field="*{ubicacion}" class="form-control" placeholder="Ej: Sierra de Gredos" required/>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-bold">Fotografía de la planta</label>
+              <input type="file" name="imagenFile" accept="image/*" class="form-control" />
+              <div class="form-text text-muted">Formatos aceptados: JPG, PNG.</div>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label fw-bold">Notas de campo</label>
+              <textarea th:field="*{notasCampo}" class="form-control" rows="3" placeholder="Describe detalles adicionales..."></textarea>
+            </div>
+
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-primary btn-lg">Guardar Planta</button>
+              <a href="/" class="btn btn-link text-secondary text-decoration-none text-center">Cancelar y volver</a>
+            </div>
+
+          </form>
+        </div>
+
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

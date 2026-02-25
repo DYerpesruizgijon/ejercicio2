@@ -1,31 +1,53 @@
-/* Estilos para el Login */
+/* =========================================
+   ESTILOS FINALES - LOGIN BOTÁNICO
+   ========================================= */
+
+/* 1. Base y Fondo */
 .login-body {
-    background: linear-gradient(135deg, #1e3932 0%, #0b1a15 100%); /* Verde botánico oscuro */
+    background: linear-gradient(135deg, #1e3932 0%, #0b1a15 100%);
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     margin: 0;
-    font-family: 'Segoe UI', sans-serif;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
-.card-login {
-    background: white;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+/* Contenedor principal para centrado extra */
+.login-container {
     width: 100%;
-    max-width: 400px;
+    max-width: 420px;
+    display: flex;
+    justify-content: center;
+}
+
+/* 2. La Tarjeta */
+.card-login {
+    background: #ffffff;
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+    width: 100%;
     text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .card-header h2 {
     color: #1e3932;
-    margin-bottom: 0.5rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    margin: 0 0 0.5rem 0;
+    font-size: 1.8rem;
+    font-weight: 700;
 }
 
+.card-header p {
+    color: #666;
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+}
+
+/* 3. Formularios e Inputs */
 .input-group {
     text-align: left;
     margin-bottom: 1.5rem;
@@ -34,49 +56,127 @@
 .input-group label {
     display: block;
     margin-bottom: 0.5rem;
-    color: #555;
-    font-weight: bold;
+    color: #2d5a27;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
 }
 
 .input-group input {
     width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    box-sizing: border-box; /* Importante para que no se salga del contenedor */
+    padding: 14px;
+    border: 2px solid #f0f0f0;
+    border-radius: 10px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background-color: #fdfdfd;
 }
 
+.input-group input:focus {
+    outline: none;
+    border-color: #198754;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(25, 135, 84, 0.1);
+}
+
+/* 4. Botones */
 .btn-login {
-    background-color: #2d5a27;
+    background-color: #198754;
     color: white;
     width: 100%;
-    padding: 12px;
+    padding: 14px;
     border: none;
-    border-radius: 6px;
-    font-size: 1rem;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 600;
     cursor: pointer;
-    transition: background 0.3s;
+    transition: all 0.3s ease;
+    margin-top: 0.5rem;
 }
 
 .btn-login:hover {
-    background-color: #3e7a36;
+    background-color: #146c43;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(25, 135, 84, 0.3);
 }
 
-.alert-error {
-    background-color: #ffebee;
-    color: #c62828;
-    padding: 10px;
-    border-radius: 4px;
-    margin-bottom: 1rem;
+/* Sección de registro */
+.register-container {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #eee;
+}
+
+.btn-register {
+    display: inline-block;
+    color: #198754;
+    text-decoration: none;
+    font-weight: 700;
     font-size: 0.9rem;
+    border: 2px solid #198754;
+    padding: 10px 20px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
 }
 
+.btn-register:hover {
+    background-color: #198754;
+    color: white;
+}
+
+/* 5. Alertas y Errores */
+.alert-error {
+    background-color: #fff5f5;
+    color: #e53e3e;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    border-left: 4px solid #e53e3e;
+    text-align: left;
+}
+
+/* 6. Footer */
 .card-footer {
     margin-top: 1.5rem;
 }
 
 .card-footer a {
-    color: #777;
+    color: #999;
     text-decoration: none;
     font-size: 0.85rem;
+    transition: color 0.2s;
+}
+
+.card-footer a:hover {
+    color: #1e3932;
+}
+
+/* =========================================
+   MEDIA QUERIES (RESPONSIVE)
+   ========================================= */
+
+/* Móviles */
+@media (max-width: 480px) {
+    .login-body {
+        align-items: flex-start;
+        padding-top: 40px;
+    }
+
+    .card-login {
+        padding: 1.5rem;
+        border-radius: 15px;
+    }
+
+    .card-header h2 {
+        font-size: 1.5rem;
+    }
+}
+
+/* Dispositivos en horizontal (móviles girados) */
+@media (max-height: 550px) {
+    .login-body {
+        align-items: flex-start;
+    }
 }
